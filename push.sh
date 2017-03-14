@@ -14,15 +14,15 @@ fi
 
 gem install fpm --no-ri --no-rdoc && curl -sL https://git.io/goreleaser | bash
 
-PACKAGE_CLOUD_REPO="tsuru/stable" 
+PACKAGE_CLOUD_REPO="tsuru/stable/ubuntu/trusty"
 if [[ ${TRAVIS_TAG} =~ .+-rc ]]; then
-  PACKAGE_CLOUD_REPO="tsuru/rc" 
+  PACKAGE_CLOUD_REPO="tsuru/rc/ubuntu/trusty"
 fi
 
 gem install package_cloud --no-ri --no-rdoc
 if [ -f dist/${GORELEASE_PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64.deb ]; then
   mv dist/${GORELEASE_PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64.deb dist/${PACKAGE_NAME}_${TRAVIS_TAG}_amd64.deb
-  echo "package_cloud push ${PACKAGE_CLOUD_REPO} dist/${PACKAGE_NAME}_${TRAVIS_TAG}_amd64.deb"
+  package_cloud push ${PACKAGE_CLOUD_REPO} dist/${PACKAGE_NAME}_${TRAVIS_TAG}_amd64.deb
 else
   echo "File dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64.deb not found."
   exit 1
