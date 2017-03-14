@@ -20,8 +20,8 @@ if [[ ${TRAVIS_TAG} =~ .+-rc ]]; then
 fi
 
 gem install package_cloud --no-ri --no-rdoc
-if [ -f dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64.deb ]; then
-  mv dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64.deb dist/${PACKAGE_NAME}_${TRAVIS_TAG}_amd64.deb
+if [ -f dist/${GORELEASE_PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64.deb ]; then
+  mv dist/${GORELEASE_PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64.deb dist/${PACKAGE_NAME}_${TRAVIS_TAG}_amd64.deb
   echo "package_cloud push ${PACKAGE_CLOUD_REPO} dist/${PACKAGE_NAME}_${TRAVIS_TAG}_amd64.deb"
 else
   echo "File dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64.deb not found."
