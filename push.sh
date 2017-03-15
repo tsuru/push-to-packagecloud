@@ -14,6 +14,8 @@ fi
 
 gem install fpm --no-ri --no-rdoc && curl -sL https://git.io/goreleaser | bash
 
+PACKAGE_DIR="./dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64"
+
 ruby misc/fpm_recipe.rb
 
 PACKAGE_CLOUD_REPO="tsuru/stable"
@@ -27,12 +29,6 @@ SUPPORTED_REDHAT_VERSIONS="6 7"
 SUPPORTED_FEDORA_VERSIONS=$(seq 14 25)
 
 gem install package_cloud --no-ri --no-rdoc
-if [ -f dist/${GORELEASE_PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64.deb ]; then
-  mv dist/${GORELEASE_PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64.deb dist/${PACKAGE_NAME}_${TRAVIS_TAG}_amd64.deb
-else
-  echo "File dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64.deb not found."
-  exit 1
-fi
 
 for ubuntu_version in ${SUPPORTED_UBUNTU_VERSIONS}
 do
