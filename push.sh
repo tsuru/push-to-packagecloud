@@ -17,7 +17,7 @@ gem install fpm --no-ri --no-rdoc && curl -sL https://git.io/goreleaser | bash
 export PACKAGE_VERSION=${TRAVIS_TAG}
 export PACKAGE_DIR="./dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64"
 
-apt-get install rpm -y
+sudo apt-get install rpm -y
 ruby misc/fpm_recipe.rb
 
 PACKAGE_CLOUD_REPO="tsuru/stable"
