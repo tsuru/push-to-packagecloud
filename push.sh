@@ -34,20 +34,20 @@ gem install package_cloud --no-ri --no-rdoc
 
 for ubuntu_version in ${SUPPORTED_UBUNTU_VERSIONS}
 do
-  package_cloud push ${PACKAGE_CLOUD_REPO}/ubuntu/${ubuntu_version} ${PACKAGE_NAME}_${TRAVIS_TAG}_amd64.deb
+  package_cloud push ${PACKAGE_CLOUD_REPO}/ubuntu/${ubuntu_version} *.deb
 done
 
 for debian_version in ${SUPPORTED_DEBIAN_VERSIONS}
 do
-  package_cloud push ${PACKAGE_CLOUD_REPO}/debian/${debian_version} ${PACKAGE_NAME}_${TRAVIS_TAG}_amd64.deb
+  package_cloud push ${PACKAGE_CLOUD_REPO}/debian/${debian_version} *.deb
 done
 
 for redhat_version in ${SUPPORTED_REDHAT_VERSIONS}
 do
-  package_cloud push ${PACKAGE_CLOUD_REPO}/el/${redhat_version} ${PACKAGE_NAME}-${TRAVIS_TAG/-/_}-1_.x86_64.rpm
+  package_cloud push ${PACKAGE_CLOUD_REPO}/el/${redhat_version} *.rpm
 done
 
 for fedora_version in ${SUPPORTED_FEDORA_VERSIONS}
 do
-  package_cloud push ${PACKAGE_CLOUD_REPO}/fedora/${fedora_version} ${PACKAGE_NAME}-${TRAVIS_TAG/-/_}-1_.x86_64.rpm
+  package_cloud push ${PACKAGE_CLOUD_REPO}/fedora/${fedora_version} *.rpm
 done
