@@ -14,6 +14,7 @@ fi
 
 gem install fpm --no-ri --no-rdoc && curl -sL https://git.io/goreleaser | bash
 
+PACKAGE_VERSION=${TRAVIS_TAG}
 PACKAGE_DIR="./dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64"
 
 ruby misc/fpm_recipe.rb
