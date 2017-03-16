@@ -26,9 +26,7 @@ if [[ ${TRAVIS_TAG} =~ .+-rc ]]; then
 fi
 
 SUPPORTED_UBUNTU_VERSIONS="precise trusty xenial yakkety"
-SUPPORTED_DEBIAN_VERSIONS="jessie stretch buster"
 SUPPORTED_REDHAT_VERSIONS="6 7"
-SUPPORTED_FEDORA_VERSIONS=$(seq 14 25)
 
 gem install package_cloud --no-ri --no-rdoc
 
@@ -37,17 +35,7 @@ do
   package_cloud push ${PACKAGE_CLOUD_REPO}/ubuntu/${ubuntu_version} *.deb
 done
 
-for debian_version in ${SUPPORTED_DEBIAN_VERSIONS}
-do
-  package_cloud push ${PACKAGE_CLOUD_REPO}/debian/${debian_version} *.deb
-done
-
 for redhat_version in ${SUPPORTED_REDHAT_VERSIONS}
 do
   package_cloud push ${PACKAGE_CLOUD_REPO}/el/${redhat_version} *.rpm
-done
-
-for fedora_version in ${SUPPORTED_FEDORA_VERSIONS}
-do
-  package_cloud push ${PACKAGE_CLOUD_REPO}/fedora/${fedora_version} *.rpm
 done
