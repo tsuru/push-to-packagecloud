@@ -12,7 +12,34 @@ if [ ! -n "${TRAVIS_TAG}" -o ! -n "${PACKAGECLOUD_TOKEN}" -o ! -n "${PACKAGE_NAM
   exit 1
 fi
 
-gem install fpm --no-ri --no-rdoc && curl -sL https://git.io/goreleaser | bash
+TAR_FILE="/tmp/goreleaser.tar.gz"
+DOWNLOAD_URL="https://github.com/morpheu/goreleaser/releases/download"
+test -z "$TMPDIR" && TMPDIR="$(mktemp -d)"
+
+last_version() {
+  local header
+  test -z "$GITHUB_TOKEN" || header="-H \"Authorization: token $GITHUB_TOKEN\""
+  curl -s $header https://api.github.com/repos/morpheu/goreleaser/releases/latest |
+    grep tag_name |
+    cut -f4 -d'"'
+}
+
+download() {
+  test -z "$VERSION" && VERSION="$(last_version)"
+  test -z "$VERSION" && {
+    echo "Unable to get goreleaser version." >&2
+    exit 1
+  }
+  rm -f "$TAR_FILE"
+  curl -s -L -o "$TAR_FILE" \
+    "$DOWNLOAD_URL/$VERSION/goreleaser_$(uname -s)_$(uname -m).tar.gz"
+}
+
+download
+tar -xf "$TAR_FILE" -C "$TMPDIR"
+"${TMPDIR}/goreleaser"
+
+gem install fpm --no-ri --no-rdoc
 
 export PACKAGE_VERSION=${TRAVIS_TAG}
 export PACKAGE_DIR="./dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64"
