@@ -39,7 +39,8 @@ download
 tar -xf "$TAR_FILE" -C "$TMPDIR"
 "${TMPDIR}/goreleaser"
 
-gem install fpm --no-ri --no-rdoc
+gem install specific_install --no-ri --no-rdoc
+gem specific_install -l https://github.com/morpheu/fpm -b pleaserun_extra_options
 
 export PACKAGE_VERSION=${TRAVIS_TAG}
 export PACKAGE_DIR="./dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64"
