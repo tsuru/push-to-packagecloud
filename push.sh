@@ -48,6 +48,7 @@ export PACKAGE_VERSION=${TRAVIS_TAG}
 export PACKAGE_DIR="./dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64"
 
 sudo apt-get install rpm -y
+sleep 10
 ruby misc/fpm_recipe.rb
 
 PACKAGE_CLOUD_REPO="tsuru/stable"
