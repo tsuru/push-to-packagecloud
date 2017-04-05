@@ -47,6 +47,7 @@ gem specific_install -l https://github.com/morpheu/fpm -b pleaserun_extra_option
 export PACKAGE_VERSION=${TRAVIS_TAG}
 export PACKAGE_DIR="./dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64"
 
+sudo apt-get install rpm -y
 gem install package_cloud --no-ri --no-rdoc
 
 ruby misc/fpm_recipe.rb
