@@ -48,7 +48,8 @@ export PACKAGE_VERSION=${TRAVIS_TAG}
 export PACKAGE_DIR="./dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64"
 
 sudo apt-get install rpm -y
-sleep 10
+gem install package_cloud --no-ri --no-rdoc
+
 ruby misc/fpm_recipe.rb
 
 PACKAGE_CLOUD_REPO="tsuru/stable"
@@ -58,8 +59,6 @@ fi
 
 SUPPORTED_UBUNTU_VERSIONS="precise trusty xenial yakkety"
 SUPPORTED_REDHAT_VERSIONS="6 7"
-
-gem install package_cloud --no-ri --no-rdoc
 
 for ubuntu_version in ${SUPPORTED_UBUNTU_VERSIONS}
 do
