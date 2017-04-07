@@ -59,10 +59,16 @@ fi
 
 SUPPORTED_UBUNTU_VERSIONS="precise trusty xenial yakkety"
 SUPPORTED_REDHAT_VERSIONS="6 7"
+SUPPORTED_DEBIAN_VERSIONS="jessie"
 
 for ubuntu_version in ${SUPPORTED_UBUNTU_VERSIONS}
 do
   package_cloud push ${PACKAGE_CLOUD_REPO}/ubuntu/${ubuntu_version} *.deb
+done
+
+for debian_version in ${SUPPORTED_DEBIAN_VERSIONS}
+do
+  package_cloud push ${PACKAGE_CLOUD_REPO}/debian/${debian_version} *.deb
 done
 
 for redhat_version in ${SUPPORTED_REDHAT_VERSIONS}
