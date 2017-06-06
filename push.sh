@@ -15,13 +15,13 @@ if [ ! -n "${TRAVIS_TAG}" -o ! -n "${PACKAGECLOUD_TOKEN}" -o ! -n "${PACKAGE_NAM
 fi
 
 TAR_FILE="/tmp/goreleaser.tar.gz"
-DOWNLOAD_URL="https://github.com/morpheu/goreleaser/releases/download"
+DOWNLOAD_URL="https://github.com/goreleaser/goreleaser/releases/download"
 test -z "$TMPDIR" && TMPDIR="$(mktemp -d)"
 
 last_version() {
   local header
   test -z "$GITHUB_TOKEN" || header="-H \"Authorization: token $GITHUB_TOKEN\""
-  curl -s $header https://api.github.com/repos/morpheu/goreleaser/releases/latest |
+  curl -s $header https://api.github.com/repos/goreleaser/goreleaser/releases/latest |
     grep tag_name |
     cut -f4 -d'"'
 }
