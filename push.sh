@@ -37,6 +37,11 @@ download() {
     "$DOWNLOAD_URL/$VERSION/goreleaser_$(uname -s)_$(uname -m).tar.gz"
 }
 
+clean() {
+  test -f ./coverage.txt && rm ./coverage.txt
+}
+
+clean
 download
 tar -xf "$TAR_FILE" -C "$TMPDIR"
 "${TMPDIR}/goreleaser"
