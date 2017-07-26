@@ -3,7 +3,8 @@
 TRAVIS_GO_VERSION=$(echo $TRAVIS_GO_VERSION | sed -r 's/([0-9]+\.[0-9]+).*$/\1/')
 GO_FOR_RELEASE=$(echo $GO_FOR_RELEASE | sed -r 's/([0-9]+\.[0-9]+).*$/\1/')
 GOARCH=$(go version | awk '{print $4}' | awk -F '/' '{print $2}')
-echo "TRAVIS_GO_VERSION=${TRAVIS_GO_VERSION} GO_FOR_RELEASE=${GO_FOR_RELEASE} TRAVIS_OS_NAME=${TRAVIS_OS_NAME} GOARCH=${GOARCH}"
+GORELEASER_CONFIG=${GORELEASER_CONFIG:-goreleaser.yml}
+echo "TRAVIS_GO_VERSION=${TRAVIS_GO_VERSION} GO_FOR_RELEASE=${GO_FOR_RELEASE} TRAVIS_OS_NAME=${TRAVIS_OS_NAME} GOARCH=${GOARCH} GORELEASER_CONFIG=${GORELEASER_CONFIG}"
 if ! [ "${TRAVIS_GO_VERSION}" = "${GO_FOR_RELEASE}" -a "${TRAVIS_OS_NAME}" = "linux" -a "${GOARCH}" = "amd64" ]; then
   echo "No package to build"
   exit 0
@@ -44,7 +45,7 @@ clean() {
 clean
 download
 tar -xf "$TAR_FILE" -C "$TMPDIR"
-"${TMPDIR}/goreleaser"
+"${TMPDIR}/goreleaser" --config "$GORELEASER_CONFIG"
 
 gem install specific_install --no-ri --no-rdoc
 gem specific_install -l https://github.com/morpheu/fpm -b pleaserun_extra_options
