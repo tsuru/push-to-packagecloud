@@ -4,7 +4,9 @@ TRAVIS_GO_VERSION=$(echo $TRAVIS_GO_VERSION | sed -r 's/([0-9]+\.[0-9]+).*$/\1/'
 GO_FOR_RELEASE=$(echo $GO_FOR_RELEASE | sed -r 's/([0-9]+\.[0-9]+).*$/\1/')
 GOARCH=$(go version | awk '{print $4}' | awk -F '/' '{print $2}')
 GORELEASER_CONFIG=${GORELEASER_CONFIG:-goreleaser.yml}
-echo "TRAVIS_GO_VERSION=${TRAVIS_GO_VERSION} GO_FOR_RELEASE=${GO_FOR_RELEASE} TRAVIS_OS_NAME=${TRAVIS_OS_NAME} GOARCH=${GOARCH} GORELEASER_CONFIG=${GORELEASER_CONFIG}"
+GORELEASE_VERSION="v0.27.5"
+echo "TRAVIS_GO_VERSION=${TRAVIS_GO_VERSION} GO_FOR_RELEASE=${GO_FOR_RELEASE} TRAVIS_OS_NAME=${TRAVIS_OS_NAME} GOARCH=${GOARCH}" 
+echo "GORELEASE_VERSION=${GORELEASE_VERSION} GORELEASER_CONFIG=${GORELEASER_CONFIG}"
 if ! [ "${TRAVIS_GO_VERSION}" = "${GO_FOR_RELEASE}" -a "${TRAVIS_OS_NAME}" = "linux" -a "${GOARCH}" = "amd64" ]; then
   echo "No package to build"
   exit 0
@@ -19,23 +21,10 @@ TAR_FILE="/tmp/goreleaser.tar.gz"
 DOWNLOAD_URL="https://github.com/goreleaser/goreleaser/releases/download"
 test -z "$TMPDIR" && TMPDIR="$(mktemp -d)"
 
-last_version() {
-  local header
-  test -z "$GITHUB_TOKEN" || header="-H \"Authorization: token $GITHUB_TOKEN\""
-  curl -s $header https://api.github.com/repos/goreleaser/goreleaser/releases/latest |
-    grep tag_name |
-    cut -f4 -d'"'
-}
-
 download() {
-  test -z "$VERSION" && VERSION="$(last_version)"
-  test -z "$VERSION" && {
-    echo "Unable to get goreleaser version." >&2
-    exit 1
-  }
   rm -f "$TAR_FILE"
   curl -s -L -o "$TAR_FILE" \
-    "$DOWNLOAD_URL/$VERSION/goreleaser_$(uname -s)_$(uname -m).tar.gz"
+    "$DOWNLOAD_URL/$GORELEASE_VERSION/goreleaser_$(uname -s)_$(uname -m).tar.gz"
 }
 
 clean() {
