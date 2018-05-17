@@ -54,7 +54,7 @@ fi
 
 SUPPORTED_UBUNTU_VERSIONS="precise trusty xenial yakkety"
 SUPPORTED_REDHAT_VERSIONS="6 7"
-SUPPORTED_DEBIAN_VERSIONS="jessie"
+SUPPORTED_DEBIAN_VERSIONS="jessie stretch buster sid"
 
 for ubuntu_version in ${SUPPORTED_UBUNTU_VERSIONS}
 do
