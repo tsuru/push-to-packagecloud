@@ -52,7 +52,7 @@ if [[ ${TRAVIS_TAG} =~ .+-rc ]]; then
   PACKAGE_CLOUD_REPO="tsuru/rc"
 fi
 
-SUPPORTED_UBUNTU_VERSIONS="precise trusty xenial yakkety"
+SUPPORTED_UBUNTU_VERSIONS="trusty xenial zesty bionic"
 SUPPORTED_REDHAT_VERSIONS="6 7"
 SUPPORTED_DEBIAN_VERSIONS="jessie stretch buster"
 
