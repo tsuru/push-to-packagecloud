@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 TRAVIS_GO_VERSION=$(echo $TRAVIS_GO_VERSION | sed -r 's/([0-9]+\.[0-9]+).*$/\1/')
 GO_FOR_RELEASE=$(echo $GO_FOR_RELEASE | sed -r 's/([0-9]+\.[0-9]+).*$/\1/')
@@ -42,7 +42,7 @@ gem specific_install -l https://github.com/morpheu/fpm -b pleaserun_extra_option
 export PACKAGE_VERSION=${TRAVIS_TAG}
 export PACKAGE_DIR="./dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64"
 
-sudo apt-get install rpm -y
+sudo apt-get update && sudo apt-get install rpm -y
 gem install package_cloud --no-ri --no-rdoc
 
 ruby misc/fpm_recipe.rb
