@@ -42,6 +42,10 @@ gem specific_install -l https://github.com/morpheu/fpm -b pleaserun_extra_option
 export PACKAGE_VERSION=${TRAVIS_TAG}
 export PACKAGE_DIR="./dist/${PACKAGE_NAME}_linux_amd64"
 
+if [[ ! -d "${PACKAGE_DIR}" ]]; then
+  PACKAGE_DIR="./dist/tsuru_linux_amd64"
+fi
+
 sudo apt-get update && sudo apt-get install rpm -y
 gem install package_cloud --no-ri --no-rdoc
 
