@@ -40,7 +40,7 @@ gem install specific_install --no-ri --no-rdoc
 gem specific_install -l https://github.com/morpheu/fpm -b pleaserun_extra_options
 
 export PACKAGE_VERSION=${TRAVIS_TAG}
-export PACKAGE_DIR="./dist/${PACKAGE_NAME}_${TRAVIS_TAG}_linux_amd64"
+export PACKAGE_DIR="./dist/${PACKAGE_NAME}_linux_amd64"
 
 sudo apt-get update && sudo apt-get install rpm -y
 gem install package_cloud --no-ri --no-rdoc
@@ -55,6 +55,7 @@ fi
 SUPPORTED_UBUNTU_VERSIONS="trusty xenial zesty bionic"
 SUPPORTED_REDHAT_VERSIONS="6 7"
 SUPPORTED_DEBIAN_VERSIONS="jessie stretch buster"
+SUPPORTED_MINT_VERSIONS="sarah serena sonya sylvia tara tessa"
 
 for ubuntu_version in ${SUPPORTED_UBUNTU_VERSIONS}
 do
@@ -69,4 +70,9 @@ done
 for redhat_version in ${SUPPORTED_REDHAT_VERSIONS}
 do
   package_cloud push ${PACKAGE_CLOUD_REPO}/el/${redhat_version} *.rpm
+done
+
+for mint_version in ${SUPPORTED_MINT_VERSIONS}
+do
+  package_cloud push ${PACKAGE_CLOUD_REPO}/linuxmint/${mint_version} *.deb
 done
