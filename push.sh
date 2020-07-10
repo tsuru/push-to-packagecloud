@@ -56,7 +56,7 @@ if [[ ${TRAVIS_TAG} =~ .+-rc ]]; then
   PACKAGE_CLOUD_REPO="tsuru/rc"
 fi
 
-SUPPORTED_UBUNTU_VERSIONS="trusty xenial zesty bionic"
+SUPPORTED_UBUNTU_VERSIONS="trusty xenial zesty bionic focal"
 SUPPORTED_REDHAT_VERSIONS="6 7"
 SUPPORTED_DEBIAN_VERSIONS="jessie stretch buster"
 SUPPORTED_MINT_VERSIONS="sarah serena sonya sylvia tara tessa"
