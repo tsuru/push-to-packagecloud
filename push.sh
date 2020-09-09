@@ -59,7 +59,7 @@ fi
 SUPPORTED_UBUNTU_VERSIONS="trusty xenial zesty bionic focal"
 SUPPORTED_REDHAT_VERSIONS="6 7"
 SUPPORTED_DEBIAN_VERSIONS="jessie stretch buster"
-SUPPORTED_MINT_VERSIONS="sarah serena sonya sylvia tara tessa"
+SUPPORTED_MINT_VERSIONS="sarah serena sonya sylvia tara tessa tina tricia ulyana"
 
 for ubuntu_version in ${SUPPORTED_UBUNTU_VERSIONS}
 do
