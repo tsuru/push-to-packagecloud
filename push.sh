@@ -1,45 +1,54 @@
-#!/bin/bash -e
+#!/bin/bash
 
-TRAVIS_GO_VERSION=$(echo $TRAVIS_GO_VERSION | sed -r 's/([0-9]+\.[0-9]+).*$/\1/')
-GO_FOR_RELEASE=$(echo $GO_FOR_RELEASE | sed -r 's/([0-9]+\.[0-9]+).*$/\1/')
-GOARCH=$(go version | awk '{print $4}' | awk -F '/' '{print $2}')
-GORELEASER_CONFIG=${GORELEASER_CONFIG:-goreleaser.yml}
-GORELEASE_VERSION="v0.112.2"
-echo "TRAVIS_GO_VERSION=${TRAVIS_GO_VERSION} GO_FOR_RELEASE=${GO_FOR_RELEASE} TRAVIS_OS_NAME=${TRAVIS_OS_NAME} GOARCH=${GOARCH}" 
-echo "GORELEASE_VERSION=${GORELEASE_VERSION} GORELEASER_CONFIG=${GORELEASER_CONFIG}"
-if ! [ "${TRAVIS_GO_VERSION}" = "${GO_FOR_RELEASE}" -a "${TRAVIS_OS_NAME}" = "linux" -a "${GOARCH}" = "amd64" ]; then
-  echo "No package to build"
-  exit 0
+set -e
+
+GITTAG=${GITHUB_REF#"refs/tags/"}
+if [[ $GITTAG == "" ]]; then
+  GITTAG=${TRAVIS_TAG}
 fi
 
-if [ ! -n "${TRAVIS_TAG}" -o ! -n "${PACKAGECLOUD_TOKEN}" -o ! -n "${PACKAGE_NAME}" ]; then
-  echo "TRAVIS_TAG, PACKAGECLOUD_TOKEN and PACKAGE_NAME must be set"
+if [ ! -n "${GITTAG}" -o ! -n "${PACKAGECLOUD_TOKEN}" -o ! -n "${PACKAGE_NAME}" ]; then
+  echo "GITTAG, PACKAGECLOUD_TOKEN and PACKAGE_NAME must be set"
   exit 1
 fi
 
-TAR_FILE="/tmp/goreleaser.tar.gz"
-DOWNLOAD_URL="https://github.com/goreleaser/goreleaser/releases/download"
-test -z "$TMPDIR" && TMPDIR="$(mktemp -d)"
+if [[ $SKIP_GORELEASER == "" ]]; then
+  TRAVIS_GO_VERSION=$(echo $TRAVIS_GO_VERSION | sed -r 's/([0-9]+\.[0-9]+).*$/\1/')
+  GO_FOR_RELEASE=$(echo $GO_FOR_RELEASE | sed -r 's/([0-9]+\.[0-9]+).*$/\1/')
+  GOARCH=$(go version | awk '{print $4}' | awk -F '/' '{print $2}')
+  GORELEASER_CONFIG=${GORELEASER_CONFIG:-goreleaser.yml}
+  GORELEASE_VERSION="v0.112.2"
+  echo "TRAVIS_GO_VERSION=${TRAVIS_GO_VERSION} GO_FOR_RELEASE=${GO_FOR_RELEASE} TRAVIS_OS_NAME=${TRAVIS_OS_NAME} GOARCH=${GOARCH}" 
+  echo "GORELEASE_VERSION=${GORELEASE_VERSION} GORELEASER_CONFIG=${GORELEASER_CONFIG}"
+  if ! [ "${TRAVIS_GO_VERSION}" = "${GO_FOR_RELEASE}" -a "${TRAVIS_OS_NAME}" = "linux" -a "${GOARCH}" = "amd64" ]; then
+    echo "No package to build"
+    exit 0
+  fi
 
-download() {
-  rm -f "$TAR_FILE"
-  curl -s -L -o "$TAR_FILE" \
-    "$DOWNLOAD_URL/$GORELEASE_VERSION/goreleaser_$(uname -s)_$(uname -m).tar.gz"
-}
+  TAR_FILE="/tmp/goreleaser.tar.gz"
+  DOWNLOAD_URL="https://github.com/goreleaser/goreleaser/releases/download"
+  test -z "$TMPDIR" && TMPDIR="$(mktemp -d)"
 
-clean() {
-  test -f ./coverage.txt && rm ./coverage.txt
-}
+  download() {
+    rm -f "$TAR_FILE"
+    curl -s -L -o "$TAR_FILE" \
+      "$DOWNLOAD_URL/$GORELEASE_VERSION/goreleaser_$(uname -s)_$(uname -m).tar.gz"
+  }
 
-clean
-download
-tar -xf "$TAR_FILE" -C "$TMPDIR"
-"${TMPDIR}/goreleaser" --config "$GORELEASER_CONFIG"
+  clean() {
+    test -f ./coverage.txt && rm ./coverage.txt
+  }
+
+  clean
+  download
+  tar -xf "$TAR_FILE" -C "$TMPDIR"
+  "${TMPDIR}/goreleaser" --config "$GORELEASER_CONFIG"
+fi
 
 gem install specific_install --no-ri --no-rdoc
 gem specific_install -l https://github.com/morpheu/fpm -b pleaserun_extra_options
 
-export PACKAGE_VERSION=${TRAVIS_TAG}
+export PACKAGE_VERSION=${GITTAG}
 export PACKAGE_DIR="./dist/${PACKAGE_NAME}_linux_amd64"
 
 if [[ ! -d "${PACKAGE_DIR}" ]]; then
@@ -52,7 +61,7 @@ gem install package_cloud --no-ri --no-rdoc
 ruby misc/fpm_recipe.rb
 
 PACKAGE_CLOUD_REPO="tsuru/stable"
-if [[ ${TRAVIS_TAG} =~ .+-rc ]]; then
+if [[ ${PACKAGE_VERSION} =~ .+-rc ]]; then
   PACKAGE_CLOUD_REPO="tsuru/rc"
 fi
 
