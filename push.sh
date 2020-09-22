@@ -67,6 +67,7 @@ fi
 
 SUPPORTED_UBUNTU_VERSIONS="trusty xenial zesty bionic focal"
 SUPPORTED_REDHAT_VERSIONS="6 7"
+SUPPORTED_FEDORA_VERSIONS="31 32"
 SUPPORTED_DEBIAN_VERSIONS="jessie stretch buster"
 SUPPORTED_MINT_VERSIONS="sarah serena sonya sylvia tara tessa tina tricia ulyana"
 
@@ -83,6 +84,11 @@ done
 for redhat_version in ${SUPPORTED_REDHAT_VERSIONS}
 do
   package_cloud push ${PACKAGE_CLOUD_REPO}/el/${redhat_version} *.rpm
+done
+
+for fedora_version in ${SUPPORTED_FEDORA_VERSIONS}
+do
+  package_cloud push ${PACKAGE_CLOUD_REPO}/fedora/${fedora_version} *.rpm
 done
 
 for mint_version in ${SUPPORTED_MINT_VERSIONS}
