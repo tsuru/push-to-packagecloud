@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -eo pipefail
 
 GITTAG=${GITHUB_REF#"refs/tags/"}
 if [[ $GITTAG == "" ]]; then
@@ -31,6 +31,7 @@ if [[ $SKIP_GORELEASER == "" ]]; then
 
   clean() {
     test -f ./coverage.txt && rm ./coverage.txt
+    true
   }
 
   clean
