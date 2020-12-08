@@ -40,7 +40,7 @@ if [[ $SKIP_GORELEASER == "" ]]; then
   "${TMPDIR}/goreleaser" --config "$GORELEASER_CONFIG"
 fi
 
-gem install specific_install --no-ri --no-rdoc
+gem install specific_install
 gem specific_install -l https://github.com/morpheu/fpm -b pleaserun_extra_options
 
 export PACKAGE_VERSION=${GITTAG}
