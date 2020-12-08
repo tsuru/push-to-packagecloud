@@ -51,7 +51,7 @@ if [[ ! -d "${PACKAGE_DIR}" ]]; then
 fi
 
 sudo apt-get update && sudo apt-get install rpm -y
-gem install package_cloud --no-ri --no-rdoc
+gem install package_cloud
 
 ruby misc/fpm_recipe.rb
 
