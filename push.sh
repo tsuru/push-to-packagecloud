@@ -13,17 +13,11 @@ if [ ! -n "${GITTAG}" -o ! -n "${PACKAGECLOUD_TOKEN}" -o ! -n "${PACKAGE_NAME}" 
 fi
 
 if [[ $SKIP_GORELEASER == "" ]]; then
-  TRAVIS_GO_VERSION=$(echo $TRAVIS_GO_VERSION | sed -r 's/([0-9]+\.[0-9]+).*$/\1/')
   GO_FOR_RELEASE=$(echo $GO_FOR_RELEASE | sed -r 's/([0-9]+\.[0-9]+).*$/\1/')
   GOARCH=$(go version | awk '{print $4}' | awk -F '/' '{print $2}')
   GORELEASER_CONFIG=${GORELEASER_CONFIG:-goreleaser.yml}
   GORELEASE_VERSION="v0.112.2"
-  echo "TRAVIS_GO_VERSION=${TRAVIS_GO_VERSION} GO_FOR_RELEASE=${GO_FOR_RELEASE} TRAVIS_OS_NAME=${TRAVIS_OS_NAME} GOARCH=${GOARCH}" 
-  echo "GORELEASE_VERSION=${GORELEASE_VERSION} GORELEASER_CONFIG=${GORELEASER_CONFIG}"
-  if ! [ "${TRAVIS_GO_VERSION}" = "${GO_FOR_RELEASE}" -a "${TRAVIS_OS_NAME}" = "linux" -a "${GOARCH}" = "amd64" ]; then
-    echo "No package to build"
-    exit 0
-  fi
+  echo "GOARCH=${GOARCH} GORELEASE_VERSION=${GORELEASE_VERSION} GORELEASER_CONFIG=${GORELEASER_CONFIG}"
 
   TAR_FILE="/tmp/goreleaser.tar.gz"
   DOWNLOAD_URL="https://github.com/goreleaser/goreleaser/releases/download"
