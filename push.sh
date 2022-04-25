@@ -46,6 +46,12 @@ gem specific_install -l https://github.com/morpheu/fpm -b pleaserun_extra_option
 export PACKAGE_VERSION=${GITTAG}
 export PACKAGE_DIR="./dist/${PACKAGE_NAME}_linux_amd64"
 
+# NOTE: compatibility with goreleaser 1.8.3 and later
+# See more: https://github.com/goreleaser/goreleaser/commit/63436392db6ac0557513535fc3ee4223a44810ed
+if [[ -d "${PACKAGE_DIR}_v1" ]]; then
+  PACKAGE_DIR="${PACKAGE_DIR}_v1"
+fi
+
 if [[ ! -d "${PACKAGE_DIR}" ]]; then
   PACKAGE_DIR="./dist/tsuru_linux_amd64"
 fi
