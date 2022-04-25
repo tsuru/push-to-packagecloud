@@ -60,7 +60,7 @@ if [[ ${PACKAGE_VERSION} =~ .+-rc ]]; then
   PACKAGE_CLOUD_REPO="tsuru/rc"
 fi
 
-SUPPORTED_UBUNTU_VERSIONS="trusty xenial zesty bionic focal"
+SUPPORTED_UBUNTU_VERSIONS="trusty xenial zesty bionic focal jammy"
 SUPPORTED_REDHAT_VERSIONS="6 7"
 SUPPORTED_FEDORA_VERSIONS="31 32 33"
 SUPPORTED_DEBIAN_VERSIONS="jessie stretch buster"
