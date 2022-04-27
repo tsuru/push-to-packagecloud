@@ -69,7 +69,7 @@ fi
 SUPPORTED_UBUNTU_VERSIONS="trusty xenial zesty bionic focal jammy"
 SUPPORTED_REDHAT_VERSIONS="6 7"
 SUPPORTED_FEDORA_VERSIONS="31 32 33"
-SUPPORTED_DEBIAN_VERSIONS="jessie stretch buster"
+SUPPORTED_DEBIAN_VERSIONS="jessie stretch buster bullseye"
 SUPPORTED_MINT_VERSIONS="sarah serena sonya sylvia tara tessa tina tricia ulyana"
 
 for ubuntu_version in ${SUPPORTED_UBUNTU_VERSIONS}
