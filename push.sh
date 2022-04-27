@@ -54,6 +54,10 @@ fi
 
 if [[ ! -d "${PACKAGE_DIR}" ]]; then
   PACKAGE_DIR="./dist/tsuru_linux_amd64"
+
+  if [[ ! -d ${PACKAGE_DIR} ]]; then
+    PACKAGE_DIR="${PACKAGE_DIR}_v1"
+  fi
 fi
 
 sudo apt-get update && sudo apt-get install rpm -y
